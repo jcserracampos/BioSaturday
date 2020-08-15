@@ -1,19 +1,5 @@
 # Invocando as dependências
-require 'sqlite3'
-
-# Criando o banco de dados e a tabela
-@db = SQLite3::Database.new 'agenda.db'
-
-@db.execute 'CREATE TABLE IF NOT EXISTS Contatos(nome TEXT, numero TEXT, empresa TEXT)'
-
-Contacts = Struct.new(:nome, :numero, :empresa)
-
-# Declarar as funções
-def insert_contact(name, phone, company)
-    contato = Contacts.new(name, phone, company)
-    
-    @db.execute "INSERT INTO Contatos VALUES ('#{contato.nome}', '#{contato.numero}', '#{contato.empresa}');"
-end
+require_relative 'Contacts'
 
 puts 'Digite seu nome'
 nome = gets.chomp
@@ -24,4 +10,6 @@ numero = gets.chomp
 puts "Para qual empresa trabalha?"
 empresa = gets.chomp
 
-insert_contact(nome, numero, empresa)
+contact = Contacts.new
+
+contact.save(nome, numero, empresa)
